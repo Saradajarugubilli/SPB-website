@@ -18,8 +18,8 @@ This is the official website for the Smart Paw Belt project — a smart collar s
 
 ### 📊 Dashboard Page
 - View registered pet info
-- Live GPS tracker
-- Health status charts: heart rate, breath rate, temperature, humidity, water level, activity
+- Location
+
 
 ### 👤 Profile Page
 - Circular pet photo
