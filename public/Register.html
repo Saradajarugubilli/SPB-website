@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Smart Paw Belt</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: url('register.jpg') no-repeat center center/cover fixed;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    header {
+      background: #df7c24;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .dashboard-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .card h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .info {
+      margin-bottom: 1rem;
+    }
+
+    .info label {
+      font-weight: 500;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      background-color: #e67e22;
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background-color: #d35400;
+    }
+
+    footer {
+      background: #1e2021;
+      color: white;
+      text-align: center;
+      padding: 1rem 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">🐾 Smart Paw Belt</div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="dog_profile.html">Profile</a>
+    </nav>
+  </header>
+
+  <div class="dashboard-container">
+    <div class="card">
+      <h2>Register Your Dog</h2>
+      <form id="registrationForm">
+        <div class="info">
+          <label>Guardian Name:</label>
+          <input type="text" name="guardian" required />
+        </div>
+
+        <div class="info">
+          <label>Email:</label>
+          <input type="email" name="email" required />
+        </div>
+
+        <div class="info">
+          <label>Country:</label>
+          <select id="country" name="country" required></select>
+        </div>
+
+        <div class="info">
+          <label>Phone Number:</label>
+          <div style="display: flex; gap: 10px;">
+            <select id="country_code" name="country_code" style="flex: 1;"></select>
+            <input type="tel" id="phone" name="phone" style="flex: 2;" required />
+          </div>
+        </div>
+
+        <div class="info">
+          <label>Location:</label>
+          <input type="text" name="location" required />
+        </div>
+
+        <div class="info">
+          <label>Dog Name:</label>
+          <input type="text" name="dog_name" required />
+        </div>
+
+        <div class="info">
+          <label>Breed:</label>
+          <input type="text" name="breed" required />
+        </div>
+
+        <div class="info">
+          <label>Age:</label>
+          <input type="number" name="age" min="0" required />
+        </div>
+
+        <div class="info">
+          <label>Vaccination Date:</label>
+          <input type="date" name="vaccination" required />
+        </div>
+
+        <div class="info">
+          <label>Health Issues:</label>
+          <textarea name="health" rows="2"></textarea>
+        </div>
+
+        <button type="submit">Register</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Smart Paw Belt | Keeping pets safe 🐶
+  </footer>
+
+  <script>
+    const countries = [
+      { name: "India", code: "+91", length: 10 }, { name: "USA", code: "+1", length: 10 },
+      { name: "UK", code: "+44", length: 10 }, { name: "Canada", code: "+1", length: 10 },
+      { name: "France", code: "+33", length: 9 }, { name: "Germany", code: "+49", length: 10 },
+      { name: "China", code: "+86", length: 11 }, { name: "Nepal", code: "+977", length: 10 },
+      { name: "Pakistan", code: "+92", length: 10 }, { name: "UAE", code: "+971", length: 9 },
+      { name: "Australia", code: "+61", length: 9 }, { name: "Bangladesh", code: "+880", length: 10 },
+      { name: "Sri Lanka", code: "+94", length: 9 }, { name: "Japan", code: "+81", length: 10 }
+    ];
+
+    const countrySelect = document.getElementById("country");
+    const codeSelect = document.getElementById("country_code");
+    const phoneInput = document.getElementById("phone");
+
+    countries.forEach(({ name, code }) => {
+      countrySelect.appendChild(new Option(name, name));
+      codeSelect.appendChild(new Option(`${code} (${name})`, code));
+    });
+
+    countrySelect.addEventListener("change", () => {
+      const selected = countries.find(c => c.name === countrySelect.value);
+      if (selected) {
+        codeSelect.value = selected.code;
+        phoneInput.maxLength = selected.length;
+        phoneInput.placeholder = `Enter ${selected.length}-digit number`;
+      }
+    });
+
+    document.getElementById("registrationForm").addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const selectedCountry = countrySelect.value;
+      const selected = countries.find(c => c.name === selectedCountry);
+      const number = phoneInput.value.trim();
+
+      if (!selected || number.length !== selected.length || !/^[0-9]+$/.test(number)) {
+        alert(`Please enter a valid ${selected.length}-digit phone number for ${selectedCountry}.`);
+        return;
+      }
+
+      const formData = {
+        guardian: document.querySelector('[name="guardian"]').value,
+        email: document.querySelector('[name="email"]').value,
+        country: selectedCountry,
+        phone: codeSelect.value + number,
+        location: document.querySelector('[name="location"]').value,
+        dog_name: document.querySelector('[name="dog_name"]').value,
+        breed: document.querySelector('[name="breed"]').value,
+        age: document.querySelector('[name="age"]').value,
+        vaccination: document.querySelector('[name="vaccination"]').value,
+        health: document.querySelector('[name="health"]').value
+      };
+
+      try {
+        const response = await fetch("http://localhost:5000/api/users/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert("Registration successful!");
+          localStorage.setItem("userId", result.user._id);
+          window.location.href = "dashboard.html";
+        } else {
+          alert("Registration failed: " + result.error);
+        }
+      } catch (err) {
+        console.error("Error:", err);
+        alert("Something went wrong.");
+      }
+    });
+  </script>
+</body>
+</html>

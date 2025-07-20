@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dog Profile - Smart Paw Belt</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: url('register.jpg') center/cover no-repeat fixed;
+      margin: 0;
+      padding: 0;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    header {
+      background: #df7c24;
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .profile-img {
+      border: 2px solid black;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+    }
+
+    .profile-label {
+      margin-top: 5px;
+      font-size: 14px;
+      color: #000;
+      font-weight: 500;
+    }
+
+    .dashboard-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      max-width: 600px;
+      width: 100%;
+      text-align: left;
+    }
+
+    .profile-pic {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid white;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      margin: 0 auto 1rem auto;
+      display: block;
+    }
+
+    .info-item {
+      margin-bottom: 10px;
+    }
+
+    .info-label {
+      font-weight: bold;
+      color: #333;
+      display: inline-block;
+      width: 120px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #e67e22;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      margin: 10px 5px 0 0;
+    }
+
+    button:hover {
+      background-color: #d35400;
+    }
+
+    .delete-btn {
+      background-color: #c0392b;
+    }
+
+    footer {
+      background: #1e2021;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">🐾 Smart Paw Belt</div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="register.html">Register</a>
+    </nav>
+  </header>
+
+  <div class="dashboard-container">
+    <div class="card" id="profileCard">
+      <img src="round-image.webp" alt="Dog Profile" class="profile-pic" />
+      <h2 style="text-align: center;">Dog Profile</h2>
+
+      <form id="editForm">
+        <div class="info-item"><span class="info-label">Guardian:</span> <input type="text" id="guardian"></div>
+        <div class="info-item"><span class="info-label">Email:</span> <input type="email" id="email"></div>
+        <div class="info-item"><span class="info-label">Phone:</span> <input type="text" id="phone"></div>
+        <div class="info-item"><span class="info-label">Location:</span> <input type="text" id="location"></div>
+        <hr>
+        <div class="info-item"><span class="info-label">Dog Name:</span> <input type="text" id="dog_name"></div>
+        <div class="info-item"><span class="info-label">Breed:</span> <input type="text" id="breed"></div>
+        <div class="info-item"><span class="info-label">Age:</span> <input type="number" id="age"></div>
+        <div class="info-item"><span class="info-label">Health Issues:</span> <input type="text" id="health"></div>
+
+        <div style="text-align: center;">
+          <button type="submit">Save</button>
+          <button type="button" class="delete-btn" onclick="deleteAccount()">Delete Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Smart Paw Belt | Connected, Caring, Safe 🐾
+  </footer>
+
+  <script>
+    const userId = localStorage.getItem("userId");
+
+    async function loadProfile() {
+      try {
+        const res = await fetch(`http://localhost:5000/api/users/profile/${userId}`);
+        const user = await res.json();
+        document.getElementById("guardian").value = user.guardian || "";
+        document.getElementById("email").value = user.email || "";
+        document.getElementById("phone").value = user.phone || "";
+        document.getElementById("location").value = user.location || "";
+        document.getElementById("dog_name").value = user.dog_name || "";
+        document.getElementById("breed").value = user.breed || "";
+        document.getElementById("age").value = user.age || "";
+        document.getElementById("health").value = user.health || "";
+      } catch (err) {
+        alert("Failed to load profile.");
+        console.error(err);
+      }
+    }
+
+    document.getElementById("editForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const updatedUser = {
+        guardian: document.getElementById("guardian").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        location: document.getElementById("location").value,
+        dog_name: document.getElementById("dog_name").value,
+        breed: document.getElementById("breed").value,
+        age: document.getElementById("age").value,
+        health: document.getElementById("health").value
+      };
+      try {
+        const res = await fetch(`http://localhost:5000/api/users/profile/${userId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedUser)
+        });
+        if (res.ok) {
+          alert("Profile updated successfully!");
+          loadProfile();
+        } else {
+          const errData = await res.json();
+          alert("Failed to update: " + errData.error);
+        }
+      } catch (err) {
+        alert("Error updating profile.");
+        console.error(err);
+      }
+    });
+
+    async function deleteAccount() {
+      if (confirm("Are you sure you want to delete your account?")) {
+        try {
+          const res = await fetch(`http://localhost:5000/api/users/profile/${userId}`, {
+            method: "DELETE"
+          });
+          const result = await res.json();
+          if (res.ok) {
+            alert("Account deleted.");
+            localStorage.clear();
+            window.location.href = "index.html";
+          } else {
+            alert("Failed to delete: " + result.error);
+          }
+        } catch (err) {
+          alert("Error deleting account.");
+          console.error(err);
+        }
+      }
+    }
+
+    loadProfile();
+  </script>
+</body>
+</html>
