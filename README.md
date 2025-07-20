@@ -34,6 +34,8 @@ This is the official website for the Smart Paw Belt project — a smart collar s
 - Edit and Delete Profile options
 - Connected to backend (MERN stack)
 
+- Website link:https://saradajarugubilli.github.io/SPB-website/
+
 
 
 ## 🧰 Tech Stack (Website)
